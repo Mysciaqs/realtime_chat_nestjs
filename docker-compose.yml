@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    depends_on:
+      - redis
+    build: .
+    image: realtime-chat-nestjs
+    container_name: realtime-chat
+    restart: always
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+    - PORT=${PORT:-3000}
+    - REDIS_HOST=${REDIS_HOST:-redis}
+    - REDIS_PORT=${REDIS_PORT:-6379}
+    - TIME_TO_LIVE=${TIME_TO_LIVE:-1209600}
+    - MESSAGE_HISTORY_AMOUNT=${MESSAGE_HISTORY_AMOUNT:--1}
+    networks:
+      - realtime-chat-network
+  
+  redis:
+    image: redis:alpine
+    container_name: realtime-chat-redis
+    ports:
+    - "6379:6379"
+    networks:
+    - realtime-chat-network
+
+networks:
+  realtime-chat-network:
+    driver: bridge
