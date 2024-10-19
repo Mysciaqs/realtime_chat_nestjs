@@ -20,12 +20,12 @@ export class ConversationGateway
   private redisClient: Redis.Redis;
   private logger: Logger = new Logger('ConversationGateway');
 
-  private REDIS_URL = process.env.REDIS_URL;
-  private TIME_TO_LIVE = process.env.TIME_TO_LIVE;
+  private REDIS_HOST = process.env.REDIS_HOST;
+  private REDIS_PORT = process.env.REDIS_PORT;
   private MESSAGE_HISTORY_AMOUNT = process.env.MESSAGE_HISTORY_AMOUNT;
 
   constructor() {
-    this.redisClient = new Redis.default(this.REDIS_URL);
+    this.redisClient = new Redis.default(this.REDIS_PORT, this.REDIS_HOST);
   }
 
   async afterInit(_server: Server) {

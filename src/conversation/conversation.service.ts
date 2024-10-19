@@ -5,10 +5,12 @@ import * as Redis from 'ioredis';
 export class ConversationService {
   private redisClient: Redis.Redis;
 
+  private REDIS_HOST = process.env.REDIS_HOST;
+  private REDIS_PORT = process.env.REDIS_PORT;
   private TIME_TO_LIVE = process.env.TIME_TO_LIVE;
 
   constructor() {
-    this.redisClient = new Redis.default();
+    this.redisClient = new Redis.default(this.REDIS_PORT, this.REDIS_HOST);
   }
 
   async create(user1: string, user2: string) {
